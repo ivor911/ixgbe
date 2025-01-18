@@ -575,14 +575,13 @@ static struct sk_buff *ixgbe_construct_skb_zc(struct ixgbe_ring *rx_ring,
 #else
 	struct xdp_buff *xdp_buffer = bi->xdp;
 #endif
+    unsigned int totalsize = xdp_buffer->data_end - xdp_buffer->data_meta;
 	unsigned int metasize = xdp_buffer->data - xdp_buffer->data_meta;
 	unsigned int datasize = xdp_buffer->data_end - xdp_buffer->data;
 	struct sk_buff *skb;
 
 	/* allocate a skb to store the frags */
-	skb = __napi_alloc_skb(&rx_ring->q_vector->napi,
-			       xdp_buffer->data_end - xdp_buffer->data_hard_start,
-			       GFP_ATOMIC | __GFP_NOWARN);
+    skb = napi_alloc_skb(&rx_ring->q_vector->napi, totalsize);
 	if (unlikely(!skb))
 		return NULL;
 
