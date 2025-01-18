@@ -4,6 +4,7 @@
 # Object files
 *.o
 *.ko
+*.ko.xz
 *.obj
 *.elf
 
@@ -50,3 +51,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# ixgbe building gnereated files
+ixgbe-5.20.3/src/kcompat_generated_defs.h
